@@ -14,3 +14,12 @@ export const fetchTeamMembers = async (): Promise<TeamMember[]> => {
     }, 500);
   });
 };
+
+export const fetchTeamMemberById = async (id: string): Promise<TeamMember | undefined> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const member = MEMBERS.find((m) => m.id === parseInt(id));
+      resolve(member);
+    }, 500);
+  });
+};

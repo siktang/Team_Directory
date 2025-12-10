@@ -1,0 +1,43 @@
+@use "../partials/globals";
+@use "../partials/mixins" as *;
+@use "../partials/variables" as *;
+
+.directory {
+    margin: 1rem;
+
+    &__title {
+        font-size: 1.3rem;
+        text-align: center;
+        margin: 1rem;
+
+        @include tablet {
+            font-size: 1.5rem;
+        }
+    }
+
+    &__container {
+        display: flex;
+        flex-direction: column;
+
+        @include tablet {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        @include desktop {
+
+        }
+    }
+
+    @include tablet {
+        margin: 2rem;
+    }
+
+    @include desktop {
+        width: $desktop-element-width;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
