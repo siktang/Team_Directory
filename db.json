@@ -1,0 +1,32 @@
+{
+  "members": [
+    {
+      "id": "1",
+      "name": "Alice Johnson",
+      "role": "Frontend Dev",
+      "email": "alice@company.com",
+      "bio": "Loves CSS."
+    },
+    {
+      "id": "2",
+      "name": "Bob Smith",
+      "role": "Backend Dev",
+      "email": "bob@company.com",
+      "bio": "Database wizard."
+    },
+    {
+      "id": "3",
+      "name": "Charlie Davis",
+      "role": "Designer",
+      "email": "charlie@company.com",
+      "bio": "Pixel perfect."
+    },
+    {
+      "id": "95c0",
+      "name": "Denise",
+      "role": "Developer",
+      "email": "support@kpmpower.com",
+      "bio": "dsad"
+    }
+  ]
+}
