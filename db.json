@@ -26,7 +26,28 @@
       "name": "Denise",
       "role": "Developer",
       "email": "support@kpmpower.com",
-      "bio": "dsad"
+      "bio": "d,sad"
+    },
+    {
+      "id": "5",
+      "name": "Charlie Davis",
+      "role": "Designer",
+      "email": "charlie@company.com",
+      "bio": "Pixel perfect."
+    },
+    {
+      "id": "7c2d",
+      "name": "DD",
+      "role": "Developer",
+      "email": "test6@test.com",
+      "bio": "ewqqwqtwq"
+    },
+    {
+      "id": "272c",
+      "name": "fsafs",
+      "role": "fasfa",
+      "email": "test6@test.com",
+      "bio": "fasfa"
     }
   ]
 }

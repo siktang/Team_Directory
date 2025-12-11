@@ -17,7 +17,6 @@ export const fetchTeamMemberById = async (id: string): Promise<TeamMember> => {
 };
 
 // 3. Create Member
-// Note: JSON Server automatically handles ID generation!
 export const createTeamMember = async (newMember: Omit<TeamMember, "id">): Promise<TeamMember> => {
   const response = await fetch(BASE_URL, {
     method: "POST",
