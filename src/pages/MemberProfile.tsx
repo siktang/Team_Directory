@@ -7,7 +7,7 @@ const MemberProfile = () => {
 
   // Use React Query to fetch specific member data
   const { data: member, isLoading, error } = useQuery({
-    queryKey: ["member", id], // Unique key includes the ID
+    queryKey: ["member", id],
     queryFn: () => fetchTeamMemberById(id!),
     enabled: !!id, // Only run query if ID exists
   });

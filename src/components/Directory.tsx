@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { fetchTeamMembers } from "../api/teamApi";
@@ -12,6 +12,16 @@ const Directory = () => {
     const [search, setSearch] = useState("");
     const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
     const PAGE_SIZE = 6;
+
+    const dialogRef = useRef<HTMLDialogElement>(null);
+
+    useEffect(() => {
+        if (selectedMember) {
+            dialogRef.current?.showModal();
+        } else {
+            dialogRef.current?.close();
+        }
+    }, [selectedMember]);
 
     const { data: allMembers = [], isLoading, error } = useQuery({
         queryKey: ["teamMembers"],
@@ -34,7 +44,7 @@ const Directory = () => {
         // 3. Slice
         const start = (safePage - 1) * PAGE_SIZE;
         const end = start + PAGE_SIZE;
-        
+
         return { 
             currentSlice: filteredMembers.slice(start, end), 
             totalPages: pages,
@@ -72,7 +82,7 @@ const Directory = () => {
                 ))}
             </div>
             {selectedMember && (
-                <dialog open style={{ position: 'fixed', top: '20%', padding: '2rem' }}>
+                <dialog ref={dialogRef}>
                     <h2>{selectedMember.name}</h2>
                     <p>{selectedMember.bio}</p>
                     <div>
