@@ -42,7 +42,6 @@ describe('Directory', () => {
     });
 
     it('shows loading state initially', () => {
-        // Make the promise hang so we see loading
         vi.mocked(fetchTeamMembers).mockImplementation(() => new Promise(() => {}));
         
         render(<Directory />, { wrapper: createWrapper() });
@@ -54,15 +53,12 @@ describe('Directory', () => {
 
         render(<Directory />, { wrapper: createWrapper() });
 
-        // Wait for "Member 1" to appear
         await waitFor(() => {
         expect(screen.getByText('Member 1')).toBeInTheDocument();
         });
         
-        // Check if Member 6 is visible (end of page 1)
         expect(screen.getByText('Member 6')).toBeInTheDocument();
         
-        // Check if Member 7 is NOT visible (it's on page 2)
         expect(screen.queryByText('Member 7')).not.toBeInTheDocument();
     });
 
@@ -74,7 +70,6 @@ describe('Directory', () => {
 
         const searchInput = screen.getByPlaceholderText(/search by name/i);
 
-        // 1. Search for "Manager" (Member 1)
         fireEvent.change(searchInput, { target: { value: 'Manager' } });
 
         expect(screen.getByText('Member 1')).toBeInTheDocument();
@@ -87,11 +82,9 @@ describe('Directory', () => {
 
         await waitFor(() => expect(screen.getByText('Member 1')).toBeInTheDocument());
 
-        // 1. Click Next
         const nextButton = screen.getByText('Next');
         fireEvent.click(nextButton);
 
-        // 2. Verify Page 2 content
         expect(screen.getByText('Member 7')).toBeInTheDocument();
         expect(screen.queryByText('Member 1')).not.toBeInTheDocument();
     });
@@ -102,17 +95,12 @@ describe('Directory', () => {
 
         await waitFor(() => expect(screen.getByText('Member 1')).toBeInTheDocument());
 
-        // 1. Click a card (Assuming the Card logic handles the click)
-        // We click the name to be safe
         fireEvent.click(screen.getByText('Member 1'));
 
-        // 2. Verify showModal was called
         expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalled();
 
-        // 3. Verify modal content is rendered in the DOM
         expect(screen.getByText('Bio for member 1')).toBeInTheDocument();
 
-        // 4. Click Close
         fireEvent.click(screen.getByText('Close'));
 
         expect(screen.queryByText("Bio for member 1")).not.toBeInTheDocument()

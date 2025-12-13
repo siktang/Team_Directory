@@ -42,3 +42,11 @@ html {
     font-weight: 600;
     color: $primary-color-silver;
 }
+
+.modal {
+    border: 1px solid #E6E6E6;
+    box-shadow: -4px 8px 20px 0px rgba(0, 0, 0, 0.10);
+    border-radius: 8px;
+    margin: auto;
+    padding: 2rem;
+}

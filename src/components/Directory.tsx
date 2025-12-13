@@ -82,7 +82,7 @@ const Directory = () => {
                 ))}
             </div>
             {selectedMember && (
-                <dialog ref={dialogRef}>
+                <dialog ref={dialogRef} className="modal">
                     <h2>{selectedMember.name}</h2>
                     <p>{selectedMember.bio}</p>
                     <div>

@@ -37,23 +37,23 @@ const AddMemberForm = ({ onClose }: { onClose: () => void }) => {
       <h3>Add New Member</h3>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Name</label>
-          <input name="name" required value={formData.name} onChange={handleChange} />
+          <label htmlFor="name">Name</label>
+          <input id="name" name="name" required value={formData.name} onChange={handleChange} />
         </div>
         
         <div>
-          <label>Role</label>
-          <input name="role" required value={formData.role} onChange={handleChange} />
+          <label htmlFor="role">Role</label>
+          <input id="role" name="role" required value={formData.role} onChange={handleChange} />
         </div>
 
         <div>
-          <label>Email</label>
-          <input type="email" name="email" required value={formData.email} onChange={handleChange} />
+          <label htmlFor="email">Email</label>
+          <input id="email" type="email" name="email" required value={formData.email} onChange={handleChange} />
         </div>
 
         <div>
-          <label>Bio</label>
-          <textarea name="bio" required value={formData.bio} onChange={handleChange} />
+          <label htmlFor="bio">Bio</label>
+          <textarea id="bio" name="bio" required value={formData.bio} onChange={handleChange} />
         </div>
 
         <button type="submit" disabled={mutation.isPending}>

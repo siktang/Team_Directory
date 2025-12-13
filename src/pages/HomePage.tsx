@@ -15,7 +15,7 @@ const HomePage = () => {
             <button onClick={openModal}>
             + Add Member
             </button>
-            <dialog ref={dialogRef}>
+            <dialog ref={dialogRef} className="modal">
                 <AddMemberForm onClose={closeModal} />
             </dialog>            
             <Directory />

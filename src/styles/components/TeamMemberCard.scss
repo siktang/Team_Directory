@@ -16,6 +16,10 @@
         cursor: pointer;
     }
 
+    &__item {
+        padding: 1rem
+    }
+
     &__avatar {
         width: 6rem;
         height: 6rem;
@@ -46,5 +50,6 @@
         width: 30%;
         height: 50%;
         margin-bottom: 0;
+        flex-direction: column;
     }
 }
