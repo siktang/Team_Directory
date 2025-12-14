@@ -48,8 +48,16 @@
 
     @include tablet {
         width: 33%;
-        height: 50%;
         margin-bottom: 0;
         flex-direction: column;
+    }
+
+    &> * {
+        width: 33%;
+        overflow-wrap: anywhere;
+        
+        @include tablet {
+            width: auto;
+        }
     }
 }

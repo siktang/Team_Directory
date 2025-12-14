@@ -4,12 +4,14 @@ import { createTeamMember } from "../api/teamApi";
 import '../styles/components/AddMember.scss';
 
 const AddMemberForm = ({ onClose }: { onClose: () => void }) => {  
-    const [formData, setFormData] = useState({
+    const INITIAL_STATE = {
         name: "",
         role: "",
         email: "",
         bio: "",
-    });
+    };
+    
+    const [formData, setFormData] = useState(INITIAL_STATE);
 
     const queryClient = useQueryClient();
 
@@ -17,6 +19,9 @@ const AddMemberForm = ({ onClose }: { onClose: () => void }) => {
         mutationFn: createTeamMember,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["teamMembers"] });
+
+            setFormData(INITIAL_STATE);
+
             onClose();
         },
         onError: () => {
@@ -68,10 +73,17 @@ const AddMemberForm = ({ onClose }: { onClose: () => void }) => {
                 <textarea id="bio" name="bio" required value={formData.bio} onChange={handleChange} />
             </div>
 
-            <button type="submit" disabled={mutation.isPending} className="button__primary">
-                {mutation.isPending ? "Adding..." : "Add Member"}
-            </button>
-            <button type="button" onClick={handleCancel}>
+            {mutation.isPending ?  (
+                <button className="button button__disabled" disabled>
+                    Submitting...
+                </button>
+            )
+            : (
+                <button type="submit" className="button button__primary">
+                    Add Member
+                </button>
+            )}
+            <button type="button" onClick={handleCancel} className="button button__secondary">
                 Cancel
             </button>
         </form>

@@ -83,7 +83,7 @@ const Directory = () => {
             />
 
             <button onClick={() => setOpenForm(true)} className="button__primary">
-            + Add Member
+                + Add Member
             </button>
             <dialog ref={addDialogRef} className="modal">
                 <AddMemberForm onClose={() => setOpenForm(false)} />

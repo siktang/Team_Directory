@@ -98,4 +98,8 @@ button {
         background-color: white;
         color: rgb(59, 58, 58);
     }
+
+    &__disabled {
+        background-color: rgb(113, 112, 114);
+    }
 }
