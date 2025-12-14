@@ -1,0 +1,12 @@
+@use "../partials/globals";
+@use "../partials/mixins" as *;
+@use "../partials/variables" as *;
+
+.form {
+    
+    &__input{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+}}

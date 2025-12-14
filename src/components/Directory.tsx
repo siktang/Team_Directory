@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchTeamMembers } from "../api/teamApi";
 import TeamMemberCard from "./TeamMemberCard";
 import { Pagination } from "./Pagination";
+import AddMemberForm from "./AddMember";
 import type { TeamMember } from "../types/types";
 import '../styles/components/Directory.scss';
 
@@ -11,17 +12,27 @@ const Directory = () => {
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState("");
     const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
+    const [openForm, setOpenForm] = useState(false);
     const PAGE_SIZE = 6;
 
-    const dialogRef = useRef<HTMLDialogElement>(null);
+    const viewDialogRef = useRef<HTMLDialogElement>(null);
+    const addDialogRef = useRef<HTMLDialogElement>(null);
 
     useEffect(() => {
         if (selectedMember) {
-            dialogRef.current?.showModal();
+            viewDialogRef.current?.showModal();
         } else {
-            dialogRef.current?.close();
+            viewDialogRef.current?.close();
         }
     }, [selectedMember]);
+
+    useEffect(() => {
+        if (openForm) {
+            addDialogRef.current?.showModal();
+        } else {
+            addDialogRef.current?.close();
+        }
+    }, [openForm]);
 
     const { data: allMembers = [], isLoading, error } = useQuery({
         queryKey: ["teamMembers"],
@@ -60,7 +71,6 @@ const Directory = () => {
     // ---------------------
 
     if (isLoading) return <div>Loading team...</div>;
-    //To-do: update error to use data response
     if (error) return <div>Error loading directory.</div>;
 
     return (
@@ -72,24 +82,31 @@ const Directory = () => {
                 onChange={(e) => setSearch(e.target.value)}
             />
 
+            <button onClick={() => setOpenForm(true)} className="button__primary">
+            + Add Member
+            </button>
+            <dialog ref={addDialogRef} className="modal">
+                <AddMemberForm onClose={() => setOpenForm(false)} />
+            </dialog> 
+
             <div className="directory__container">
                 {currentSlice.map((member) => (
-                <TeamMemberCard 
-                    key={member.id} 
-                    member={member} 
-                    onClick={setSelectedMember} 
-                />
+                    <TeamMemberCard 
+                        key={member.id} 
+                        member={member} 
+                        onClick={setSelectedMember} 
+                    />
                 ))}
             </div>
             {selectedMember && (
-                <dialog ref={dialogRef} className="modal">
+                <dialog ref={viewDialogRef} className="modal">
                     <h2>{selectedMember.name}</h2>
                     <p>{selectedMember.bio}</p>
                     <div>
                         <Link to={`/member/${selectedMember.id}`}>
-                            <button>See Full Profile</button>
+                            <button className="button__primary">See Full Profile</button>
                         </Link>
-                        <button onClick={() => setSelectedMember(null)}>Close</button>
+                        <button onClick={() => setSelectedMember(null)} className="button__secondary">Close</button>
                     </div>
                 </dialog>
             )}

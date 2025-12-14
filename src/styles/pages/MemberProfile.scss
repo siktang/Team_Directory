@@ -1,0 +1,9 @@
+@use "../partials/globals";
+@use "../partials/mixins" as *;
+@use "../partials/variables" as *;
+
+.member-profil {
+    border: 1px solid #ccc;
+    padding: 2rem;
+    border-radius: 0.8rem;
+}

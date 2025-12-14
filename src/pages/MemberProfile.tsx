@@ -22,7 +22,7 @@ const MemberProfile = () => {
         &larr; Back to Directory
       </Link>
 
-      <div style={{ border: "1px solid #ccc", padding: "2rem", borderRadius: "8px" }}>
+      <div className="member-profile">
         <h1>{member.name}</h1>
         <h3>{member.role}</h3>
         <p><strong>Email:</strong> {member.email}</p>
