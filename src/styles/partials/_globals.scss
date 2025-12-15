@@ -70,10 +70,6 @@ button {
         border-color: #646cff;
     }
     
-    &:focus,  &:focus-visible {
-        outline: 0.25rem auto -webkit-focus-ring-color;
-    }
-
     &:disabled {
         display: none;
     }
