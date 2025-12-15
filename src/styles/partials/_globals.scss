@@ -1,0 +1,130 @@
+@use './variables' as *;
+@use './mixins' as *;
+
+html {
+    height: 100%;
+    margin: 2rem;
+}
+  
+* {
+    box-sizing: border-box;
+    font-family: 'Avenir', sans-serif;
+    background-color: $primary-color-white;
+    color: $primary-color-black;
+}
+
+body {
+    margin: auto;
+
+    @include desktop {
+        width: $desktop-element-width;
+    }
+}
+
+.header {
+    text-align: center;
+}
+
+::placeholder {
+    color: $primary-color-silver;
+}
+
+.modal {
+    border: 1px solid #E6E6E6;
+    box-shadow: -4px 8px 20px 0px rgba(0, 0, 0, 0.10);
+    border-radius: 8px;
+    margin: auto;
+    padding: 2rem;
+
+    &> * {
+        padding: 1rem;
+    }
+}
+
+input, textarea {
+    border: 1px solid #E6E6E6;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem;
+    border-radius: 8px;
+}
+
+a {
+    font-weight: 500;
+    color: #646cff;
+    text-decoration: inherit;
+    
+    &:hover {
+        color: #535bf2;
+    }   
+}
+
+button {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.25s;
+    
+    &:hover {
+        border-color: #646cff;
+    }
+}
+
+.button {
+    font-size: 0.7rem;
+
+    @include tablet {
+        font-size: 0.82rem;
+    }
+
+    &__primary {
+        background-color: rgb(59, 58, 58);
+        color: $primary-color-white;
+    }
+
+    &__secondary {
+        background-color: $primary-color-white;
+        color: rgb(59, 58, 58);
+    }
+
+    &__danger {
+        color: red;
+    }
+
+    &__disabled {
+        background-color: $primary-color-silver;
+    }
+
+    &__tablet {
+        display: none;
+
+        @include tablet {
+            display: block;
+        }
+    }
+
+    &__mobile {
+        @include tablet {
+            display: none;
+        }
+    }
+}
+
+.divider {
+    border-bottom: 1px solid $primary-color-silver;
+    margin-bottom: 1rem;
+}
+
+.directory__container:hover .member-card {
+        opacity: 0.6;
+    }
+
+.directory__container:hover .member-card:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.icon {
+    height: 2rem;
+}

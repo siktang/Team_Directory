@@ -1,0 +1,133 @@
+import { useState, useMemo, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { fetchTeamMembers } from "../api/teamApi";
+import TeamMemberCard from "./TeamMemberCard";
+import Pagination from "./Pagination";
+import AddMemberForm from "./AddMember";
+import type { TeamMember } from "../types/types";
+import '../styles/components/Directory.scss';
+
+const Directory = () => {
+    const [page, setPage] = useState(1);
+    const [search, setSearch] = useState("");
+    const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
+    const [openForm, setOpenForm] = useState(false);
+    const PAGE_SIZE = 6;
+
+    const viewDialogRef = useRef<HTMLDialogElement>(null);
+    const addDialogRef = useRef<HTMLDialogElement>(null);
+
+    useEffect(() => {
+        if (selectedMember) {
+            viewDialogRef.current?.showModal();
+        } else {
+            viewDialogRef.current?.close();
+        }
+    }, [selectedMember]);
+
+    useEffect(() => {
+        if (openForm) {
+            addDialogRef.current?.showModal();
+        } else {
+            addDialogRef.current?.close();
+        }
+    }, [openForm]);
+
+    const { data: allMembers = [], isLoading, error } = useQuery({
+        queryKey: ["teamMembers"],
+        queryFn: fetchTeamMembers,
+    });
+
+    const { currentSlice, totalPages } = useMemo(() => {
+        const filteredMembers = allMembers.filter((member) =>
+            member.name.toLowerCase().includes(search.toLowerCase()) ||
+            member.role.toLowerCase().includes(search.toLowerCase())
+        );
+
+        const total = filteredMembers.length;
+        const pages = Math.ceil(total / PAGE_SIZE);
+        
+        // Safety: Ensure page isn't out of bounds
+        const safePage = Math.min(page, pages) || 1; 
+
+        // Slice
+        const start = (safePage - 1) * PAGE_SIZE;
+        const end = start + PAGE_SIZE;
+
+        return { 
+            currentSlice: filteredMembers.slice(start, end), 
+            totalPages: pages,
+            safePage
+        };
+    }, [allMembers, search, page]);
+
+    // Sync safe page back to state if it changed during calculation
+    // (Prevents being stuck on Page 5 when search results only have 1 page)
+    if (page !== 1 && page > totalPages && totalPages > 0) {
+        setPage(1); 
+    }
+
+    if (isLoading) return <div>Loading team...</div>;
+    if (error) return <div>Error loading directory.</div>;
+
+    return (
+        <div className="directory">
+            <div className="directory__top-buttons">
+                <div>
+                    <input
+                        id="search"
+                        data-testid="searchBox"
+                        type="text"
+                        placeholder="Search by name or role"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <button onClick={() => setOpenForm(true)} className="button__primary button__mobile">
+                        Add
+                    </button>
+                    <button onClick={() => setOpenForm(true)} className="button__primary button__tablet">
+                        + Add Member
+                    </button>
+                </div>
+            </div>
+            <dialog ref={addDialogRef} className="modal">
+                <AddMemberForm onClose={() => setOpenForm(false)} />
+            </dialog> 
+
+            <div className="directory__container">
+                {currentSlice.map((member) => (
+                    <TeamMemberCard 
+                        key={member.id} 
+                        member={member} 
+                        onClick={setSelectedMember} 
+                    />
+                ))}
+            </div>
+            {selectedMember && (
+                <dialog ref={viewDialogRef} className="modal">
+                    <h2>{selectedMember.name}</h2>
+                    <div className="divider"></div>
+                    <h4>Bio</h4>
+                    <p>{selectedMember.bio}</p>
+                    <div>
+                        <Link to={`/member/${selectedMember.id}`}>
+                            <button className="button__primary">More Actions</button>
+                        </Link>
+                        <button onClick={() => setSelectedMember(null)} className="button__secondary">Close</button>
+                    </div>
+                </dialog>
+            )}
+
+            <Pagination
+                currentPage={page}
+                totalPages={totalPages}
+                onPageChange={setPage}
+            />
+        </div>
+    );
+};
+
+export default Directory;

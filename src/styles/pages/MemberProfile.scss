@@ -1,0 +1,17 @@
+@use "../partials/globals";
+@use "../partials/mixins" as *;
+@use "../partials/variables" as *;
+
+.member-profile {
+    padding: 2rem;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+
+        > h1 {
+            margin-right: 1.5rem;
+        }
+    }
+}
