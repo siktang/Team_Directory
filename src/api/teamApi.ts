@@ -1,6 +1,6 @@
 import type { TeamMember } from "../types/types";
 
-const BASE_URL = "http://localhost:3000/members";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 // 1. Fetch All Members
 export const fetchTeamMembers = async (): Promise<TeamMember[]> => {
@@ -28,4 +28,14 @@ export const createTeamMember = async (newMember: Omit<TeamMember, "id">): Promi
     
     if (!response.ok) throw new Error("Failed to create member");
     return response.json();
+};
+
+export const deleteTeamMember = async (id: number | string): Promise<void> => {
+    const response = await fetch(`${BASE_URL}/${id}`, {
+        method: 'DELETE',
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to delete member");
+    }
 };

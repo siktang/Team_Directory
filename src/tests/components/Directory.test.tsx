@@ -68,7 +68,7 @@ describe('Directory', () => {
 
         await waitFor(() => expect(screen.getByText('Member 1')).toBeInTheDocument());
 
-        const searchInput = screen.getByPlaceholderText(/search by name/i);
+        const searchInput = screen.getByTestId('searchBox');
 
         fireEvent.change(searchInput, { target: { value: 'Manager' } });
 

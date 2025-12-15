@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { fetchTeamMembers } from "../api/teamApi";
 import TeamMemberCard from "./TeamMemberCard";
-import { Pagination } from "./Pagination";
+import Pagination from "./Pagination";
 import AddMemberForm from "./AddMember";
 import type { TeamMember } from "../types/types";
 import '../styles/components/Directory.scss';
@@ -76,6 +76,8 @@ const Directory = () => {
             <div className="directory__top-buttons">
                 <div>
                     <input
+                        id="search"
+                        data-testid="searchBox"
                         type="text"
                         placeholder="Search by name or role"
                         value={search}
@@ -107,10 +109,12 @@ const Directory = () => {
             {selectedMember && (
                 <dialog ref={viewDialogRef} className="modal">
                     <h2>{selectedMember.name}</h2>
+                    <div className="divider"></div>
+                    <h4>Bio</h4>
                     <p>{selectedMember.bio}</p>
                     <div>
                         <Link to={`/member/${selectedMember.id}`}>
-                            <button className="button__primary">See Full Profile</button>
+                            <button className="button__primary">More Actions</button>
                         </Link>
                         <button onClick={() => setSelectedMember(null)} className="button__secondary">Close</button>
                     </div>
