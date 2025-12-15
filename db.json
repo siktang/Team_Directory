@@ -22,13 +22,6 @@
       "bio": "Pixel perfect."
     },
     {
-      "id": "95c0",
-      "name": "Denise",
-      "role": "Developer",
-      "email": "support@kpmpower.com",
-      "bio": "d,sad"
-    },
-    {
       "id": "5",
       "name": "Charlie Davis",
       "role": "Designer",
@@ -41,13 +34,6 @@
       "role": "Developer",
       "email": "test6@test.com",
       "bio": "ewqqwqtwq"
-    },
-    {
-      "id": "272c",
-      "name": "fsafs",
-      "role": "fasfa",
-      "email": "test6@test.com",
-      "bio": "fasfa"
     },
     {
       "id": "73f6",
@@ -97,6 +83,13 @@
       "role": "Developer",
       "email": "test6@test.com",
       "bio": "fafag"
+    },
+    {
+      "id": "0cc4",
+      "name": "Denise",
+      "role": "Developer",
+      "email": "test6@test.com",
+      "bio": "gdh"
     }
   ]
 }
