@@ -2,11 +2,22 @@ import type { TeamMember } from "../types/types";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-// Fetch All Members
-export const fetchTeamMembers = async (): Promise<TeamMember[]> => {
-    const response = await fetch(BASE_URL);
+interface FetchResponse {
+    data: TeamMember[];
+    total: number;
+}
+
+// Fetch All Members (server-side pagination)
+export const fetchTeamMembers = async (page: number, limit: number, search: string=""): Promise<FetchResponse> => {
+    const response = await fetch(`${BASE_URL}?_page=${page}&_limit=${limit}&q=${search}`);
+    
     if (!response.ok) throw new Error("Failed to fetch members");
-    return response.json();
+
+    const data = await response.json();
+
+    const total = Number(response.headers.get('X-Total-Count') || 0);
+
+    return { data, total };
 };
 
 // Fetch Single Member

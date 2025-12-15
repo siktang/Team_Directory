@@ -50,7 +50,7 @@ const MemberProfile = () => {
                 <div className="member-profile__header">
                     <h1 data-testid="memberName">{member.name}</h1> 
                     <div onClick={openDeleteModal} data-testid="deleteMember">
-                        <img src={deleteIcon} className="icon" alt="delete icon" title="Delete this user"/>
+                        <img src={deleteIcon} className="icon" alt="delete icon" title="Delete this member"/>
                     </div>
                 </div>
                 <h3>{member.role}</h3>
