@@ -7,6 +7,8 @@ interface PaginationProps {
 const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) => {
     if (totalPages <= 1) return null;
 
+    const pageOptions = Array.from({ length: totalPages }, (_, i) => i + 1);
+
     const handlePrevious = () => {
         if (currentPage > 1) {
             onPageChange(currentPage - 1);
@@ -19,25 +21,43 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) 
         }
     };
 
+    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        onPageChange(Number(e.target.value));
+    };
+
     return (
         <div>
-            <button 
-                onClick={handlePrevious} 
-                disabled={currentPage === 1}
-            >
-                Previous
-            </button>
+            {currentPage === 1 ? null:
+                <button 
+                    onClick={handlePrevious} 
+                >
+                    Previous
+                </button>
+            }
             
             <span>
-                Page <strong>{currentPage}</strong> of <strong>{totalPages}</strong>
+                Page 
+                <select 
+                    value={currentPage} 
+                    onChange={handleSelectChange}
+                    aria-label="Select Page" 
+                >
+                    {pageOptions.map((page) => (
+                        <option key={page} value={page}>
+                            {page}
+                        </option>
+                    ))}
+                </select>
+                of <strong>{totalPages}</strong>
             </span>
             
-            <button 
-                onClick={handleNext} 
-                disabled={currentPage >= totalPages}
-            >
-                Next
-            </button>
+            {currentPage >= totalPages ? null:
+                <button 
+                    onClick={handleNext} 
+                >
+                    Next
+                </button>
+            }
         </div>
     );
 };
