@@ -18,9 +18,9 @@ const mockMembers = Array.from({ length: 7 }, (_, i) => ({
 const createWrapper = () => {
     const queryClient = new QueryClient({
         defaultOptions: {
-        queries: {
-            retry: false, // Turn off retries for tests
-        },
+            queries: {
+                retry: false, 
+            },
         },
     });
 

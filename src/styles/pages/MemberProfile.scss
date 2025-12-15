@@ -2,8 +2,12 @@
 @use "../partials/mixins" as *;
 @use "../partials/variables" as *;
 
-.member-profil {
-    border: 1px solid #ccc;
+.member-profile {
     padding: 2rem;
-    border-radius: 0.8rem;
+
+    &__content {
+        &> * {
+            padding: 1rem;
+        }
+    }
 }

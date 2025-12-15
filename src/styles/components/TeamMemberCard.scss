@@ -6,43 +6,15 @@
     border: 1px solid #E6E6E6;
     box-shadow: -4px 8px 20px 0px rgba(0, 0, 0, 0.10);
     border-radius: 8px;
-    padding: 1rem;
+    padding: 0.75rem;
     display: flex;
     margin-bottom: 1rem;
 
-    &:hover {
-        background-color: rgb(217, 213, 220);
-        font-weight: 500;
-        cursor: pointer;
-    }
-
     &__item {
-        padding: 1rem
-    }
-
-    &__avatar {
-        width: 6rem;
-        height: 6rem;
-        margin-right: 1rem;
-        border-radius: 16px;
-        object-fit: cover;
-        object-position: left;
-    }
-
-    &__selected {
-        background-color: rgb(217, 213, 220);
-        font-weight: 500;
-    }
-
-    &__name {
-        font-size: 0.875rem;
+        padding: 0.3rem;
 
         @include tablet {
-            font-size: 1rem;
-        }
-
-        &:hover {
-            text-decoration: underline;
+            padding: 1rem;
         }
     }
 

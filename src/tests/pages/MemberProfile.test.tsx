@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import MemberProfile from '../../pages/MemberProfile'; // Adjust path if needed
+import MemberProfile from '../../pages/MemberProfile'; 
 import { fetchTeamMemberById } from '../../api/teamApi';
 import type { Mock } from 'vitest';
 
@@ -18,20 +18,19 @@ const mockMember = {
     bio: "No fate but what we make."
 };
 
-// 3. Helper: Create a wrapper that simulates being on a specific URL
 const renderWithRouter = (memberId = "99") => {
     const queryClient = new QueryClient({
-      defaultOptions: { queries: { retry: false } },
+        defaultOptions: { queries: { retry: false } },
     });
 
     return render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter initialEntries={[`/member/${memberId}`]}>
-          <Routes>
-            <Route path="/member/:id" element={<MemberProfile />} />
-          </Routes>
-        </MemoryRouter>
-      </QueryClientProvider>
+        <QueryClientProvider client={queryClient}>
+            <MemoryRouter initialEntries={[`/member/${memberId}`]}>
+                <Routes>
+                  <Route path="/member/:id" element={<MemberProfile />} />
+                </Routes>
+            </MemoryRouter>
+        </QueryClientProvider>
     );
 };
 
@@ -49,12 +48,10 @@ describe('MemberProfile Page', () => {
 
         renderWithRouter("99");
 
-        // 1. Wait for data to load
         await waitFor(() => {
           expect(screen.getByText('Sarah Connor')).toBeInTheDocument();
         });
 
-        // 2. Verify other details
         expect(screen.getByText('Security Lead')).toBeInTheDocument();
         expect(screen.getByText('sarah@skynet.com')).toBeInTheDocument();
         expect(screen.getByText('No fate but what we make.')).toBeInTheDocument();

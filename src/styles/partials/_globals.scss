@@ -7,37 +7,25 @@ html {
 }
   
 * {
-      box-sizing: border-box;
-      margin: 0;
-      font-family: 'Avenir', sans-serif;
-      background-color: $primary-color-white;
-      color: $primary-color-black;
+    box-sizing: border-box;
+    font-family: 'Avenir', sans-serif;
+    background-color: $primary-color-white;
+    color: $primary-color-black;
+}
+
+body {
+    margin: auto;
+
+    @include desktop {
+        width: $desktop-element-width;
+    }
 }
 
 .header {
     text-align: center;
 }
 
-.divider {
-    border-bottom: 1px solid $secondary-color-silver;
-    margin-bottom: 1rem;
-}
-
 ::placeholder {
-    color: rgb(105, 103, 103);
-}
-
-.page-header {
-  font-size: 1.5rem;
-
-  @include tablet {
-    font-size: 2.063rem;
-  }
-}
-
-.section-header {
-    font-size: 0.813rem;
-    font-weight: 600;
     color: $primary-color-silver;
 }
 
@@ -74,7 +62,6 @@ button {
     border-radius: 8px;
     border: 1px solid transparent;
     padding: 0.6em 1.2em;
-    font-size: 1em;
     font-weight: 500;
     cursor: pointer;
     transition: border-color 0.25s;
@@ -86,20 +73,58 @@ button {
     &:focus,  &:focus-visible {
         outline: 0.25rem auto -webkit-focus-ring-color;
     }
+
+    &:disabled {
+        display: none;
+    }
 }
 
 .button {
+    font-size: 0.7rem;
+
+    @include tablet {
+        font-size: 0.82rem;
+    }
+
     &__primary {
         background-color: rgb(59, 58, 58);
-        color: white;
+        color: $primary-color-white;
     }
 
     &__secondary {
-        background-color: white;
+        background-color: $primary-color-white;
         color: rgb(59, 58, 58);
     }
 
     &__disabled {
-        background-color: rgb(113, 112, 114);
+        background-color: $primary-color-silver;
     }
+
+    &__tablet {
+        display: none;
+
+        @include tablet {
+            display: block;
+        }
+    }
+
+    &__mobile {
+        @include tablet {
+            display: none;
+        }
+    }
+}
+
+.divider {
+    border-bottom: 1px solid $primary-color-silver;
+    margin-bottom: 1rem;
+}
+
+.directory__container:hover .member-card {
+        opacity: 0.6;
+    }
+
+.directory__container:hover .member-card:hover {
+    opacity: 1;
+    cursor: pointer;
 }

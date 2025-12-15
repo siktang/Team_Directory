@@ -41,25 +41,24 @@ const Directory = () => {
 
     const { currentSlice, totalPages } = useMemo(() => {
         const filteredMembers = allMembers.filter((member) =>
-        member.name.toLowerCase().includes(search.toLowerCase()) ||
-        member.role.toLowerCase().includes(search.toLowerCase())
-    );
+            member.name.toLowerCase().includes(search.toLowerCase()) ||
+            member.role.toLowerCase().includes(search.toLowerCase())
+        );
 
-        // 2. Calculate Math
         const total = filteredMembers.length;
         const pages = Math.ceil(total / PAGE_SIZE);
         
         // Safety: Ensure page isn't out of bounds
         const safePage = Math.min(page, pages) || 1; 
 
-        // 3. Slice
+        // Slice
         const start = (safePage - 1) * PAGE_SIZE;
         const end = start + PAGE_SIZE;
 
         return { 
             currentSlice: filteredMembers.slice(start, end), 
             totalPages: pages,
-            safePage // Return this so we can sync state if needed
+            safePage
         };
     }, [allMembers, search, page]);
 
@@ -68,23 +67,30 @@ const Directory = () => {
     if (page !== 1 && page > totalPages && totalPages > 0) {
         setPage(1); 
     }
-    // ---------------------
 
     if (isLoading) return <div>Loading team...</div>;
     if (error) return <div>Error loading directory.</div>;
 
     return (
         <div className="directory">
-            <input
-                type="text"
-                placeholder="Search by name or role"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-            />
-
-            <button onClick={() => setOpenForm(true)} className="button__primary">
-                + Add Member
-            </button>
+            <div className="directory__top-buttons">
+                <div>
+                    <input
+                        type="text"
+                        placeholder="Search by name or role"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <button onClick={() => setOpenForm(true)} className="button__primary button__mobile">
+                        Add
+                    </button>
+                    <button onClick={() => setOpenForm(true)} className="button__primary button__tablet">
+                        + Add Member
+                    </button>
+                </div>
+            </div>
             <dialog ref={addDialogRef} className="modal">
                 <AddMemberForm onClose={() => setOpenForm(false)} />
             </dialog> 
@@ -110,6 +116,7 @@ const Directory = () => {
                     </div>
                 </dialog>
             )}
+
             <Pagination
                 currentPage={page}
                 totalPages={totalPages}

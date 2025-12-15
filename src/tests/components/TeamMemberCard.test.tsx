@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import TeamMemberCard from '../../components/TeamMemberCard';
 import type { TeamMember } from '../../types/types';
 
@@ -12,11 +12,16 @@ const mockMember: TeamMember = {
 };
 
 describe('TeamMemberCard', () => {
+    const handleClick = vi.fn();
+
+    const renderComponent = () => 
+        render(<TeamMemberCard member={mockMember} onClick={handleClick} />);
+
+    beforeEach(() => {
+        renderComponent();
+    });
+
     it('renders member information correctly', () => {
-        const mockClick = vi.fn();
-
-        render(<TeamMemberCard member={mockMember} onClick={mockClick} />);
-
         expect(screen.getByText("Alice Johnson")).toBeInTheDocument();
         
         expect(screen.getByText(/Frontend Engineer/i)).toBeInTheDocument();
@@ -25,17 +30,13 @@ describe('TeamMemberCard', () => {
     });
 
     it('calls onClick with the correct member when clicked', () => {
-        const handleClick = vi.fn();
-
-        render(<TeamMemberCard member={mockMember} onClick={handleClick} />);
-
         const card = screen.getByText("Alice Johnson").closest('div');
         if (card) {
             fireEvent.click(card);
         }
 
         expect(handleClick).toHaveBeenCalledTimes(1);
-        
+
         expect(handleClick).toHaveBeenCalledWith(mockMember);
     });
 });
