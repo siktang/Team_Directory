@@ -73,7 +73,7 @@ const Directory = () => {
                 </div>
             </div>
             <dialog ref={addDialogRef} className="modal">
-                <AddMemberForm onClose={() => setOpenForm(false)} />
+                {openForm && <AddMemberForm onClose={() => setOpenForm(false)} />}
             </dialog> 
 
             <div className="directory__container">
