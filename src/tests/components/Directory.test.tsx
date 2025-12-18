@@ -57,7 +57,7 @@ describe('Directory', () => {
         render(<Directory />, { wrapper: createWrapper() });
 
         await waitFor(() => {
-        expect(screen.getByText('Member 1')).toBeInTheDocument();
+            expect(screen.getByText('Member 1')).toBeInTheDocument();
         });
         
         expect(screen.getByText('Member 6')).toBeInTheDocument();
@@ -122,23 +122,6 @@ describe('Directory', () => {
             expect(screen.getByText('Member 7')).toBeInTheDocument();
         });
         expect(screen.queryByText('Member 1')).not.toBeInTheDocument(); 
-    });
-
-    it('opens and closes the modal', async () => {
-        vi.mocked(fetchTeamMembers).mockResolvedValue({data: mockMembers, total: mockMembers.length});
-        render(<Directory />, { wrapper: createWrapper() });
-
-        await waitFor(() => expect(screen.getByText('Member 1')).toBeInTheDocument());
-
-        fireEvent.click(screen.getByText('Member 1'));
-
-        expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalled();
-
-        expect(screen.getByText('Bio for member 1')).toBeInTheDocument();
-
-        fireEvent.click(screen.getByText('Close'));
-
-        expect(screen.queryByText("Bio for member 1")).not.toBeInTheDocument()
     });
 
     it('shows error state when fetch fails', async () => {

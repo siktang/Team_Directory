@@ -1,5 +1,6 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { MemoryRouter } from 'react-router-dom';
 import TeamMemberCard from '../../components/TeamMemberCard';
 import type { TeamMember } from '../../types/types';
 
@@ -12,12 +13,17 @@ const mockMember: TeamMember = {
 };
 
 describe('TeamMemberCard', () => {
-    const handleClick = vi.fn();
-
     const renderComponent = () => 
-        render(<TeamMemberCard member={mockMember} onClick={handleClick} />);
+        render(
+            <MemoryRouter>
+                <TeamMemberCard member={mockMember} />
+            </MemoryRouter>
+        );
 
     beforeEach(() => {
+        HTMLDialogElement.prototype.showModal = vi.fn();
+        HTMLDialogElement.prototype.close = vi.fn();
+        vi.clearAllMocks();
         renderComponent();
     });
 
@@ -29,14 +35,38 @@ describe('TeamMemberCard', () => {
         expect(screen.getByText(/alice@test.com/i)).toBeInTheDocument();
     });
 
-    it('calls onClick with the correct member when clicked', () => {
-        const card = screen.getByText("Alice Johnson").closest('div');
-        if (card) {
-            fireEvent.click(card);
-        }
+    it('opens the bio modal when "See Bio" is clicked', async () => {
 
-        expect(handleClick).toHaveBeenCalledTimes(1);
+        // 1. Ensure Bio is NOT visible initially
+        // We use queryByText because getByText throws an error if not found
+        expect(screen.queryByText("Loves React testing.")).not.toBeInTheDocument();
 
-        expect(handleClick).toHaveBeenCalledWith(mockMember);
+        // 2. Click the button
+        const bioButton = screen.getByRole('button', { name: /See Bio/i });
+        fireEvent.click(bioButton);
+
+        // 3. Verify Modal Appears
+        // Note: With conditional rendering, the text appears in the DOM now
+        expect(screen.getByText("Loves React testing.")).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: "Alice Johnson", level: 3 })).toBeInTheDocument();
+    });
+
+    it('closes the bio modal when "Close" is clicked', async () => {
+
+        // Open it first
+        fireEvent.click(screen.getByRole('button', { name: /See Bio/i }));
+        
+        // Find the Close button inside the modal
+        const closeButton = screen.getByRole('button', { name: /Close/i, hidden: true });
+        fireEvent.click(closeButton);
+
+        await waitFor(() => {
+            expect(screen.queryByText("Loves React testing.")).not.toBeInTheDocument();
+        });
+    });
+
+    it('has a link to the profile page', () => {
+        const link = screen.getByRole('link', { name: /More Actions/i });
+        expect(link).toHaveAttribute('href', '/member/1');
     });
 });
