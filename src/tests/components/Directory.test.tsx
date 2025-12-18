@@ -49,7 +49,10 @@ describe('Directory', () => {
     });
 
     it('renders members after loading', async () => {
-        vi.mocked(fetchTeamMembers).mockResolvedValue(mockMembers);
+        vi.mocked(fetchTeamMembers).mockResolvedValue({
+            data: mockMembers.slice(0, 6), // Simulate Page 1
+            total: mockMembers.length      // Real total (7)
+        });
 
         render(<Directory />, { wrapper: createWrapper() });
 
@@ -63,7 +66,23 @@ describe('Directory', () => {
     });
 
     it('filters members when searching', async () => {
-        vi.mocked(fetchTeamMembers).mockResolvedValue(mockMembers);
+        vi.mocked(fetchTeamMembers).mockImplementation(async (_page, _limit, search) => {
+        
+            // If the component asks for "Manager", only return the manager
+            if (search === 'Manager') {
+                return { 
+                    data: [mockMembers[0]], // Only Member 1 is a Manager
+                    total: 1 
+                };
+            }
+
+            // Otherwise, return everyone
+            return { 
+                data: mockMembers, 
+                total: mockMembers.length 
+            };
+        });
+
         render(<Directory />, { wrapper: createWrapper() });
 
         await waitFor(() => expect(screen.getByText('Member 1')).toBeInTheDocument());
@@ -72,25 +91,41 @@ describe('Directory', () => {
 
         fireEvent.change(searchInput, { target: { value: 'Manager' } });
 
-        expect(screen.getByText('Member 1')).toBeInTheDocument();
-        expect(screen.queryByText('Member 2')).not.toBeInTheDocument();
+        await waitFor(() => {
+            expect(screen.getByText('Member 1')).toBeInTheDocument(); // Still there
+            expect(screen.queryByText('Member 2')).not.toBeInTheDocument(); // Gone!
+        });
     });
 
     it('paginates correctly', async () => {
-        vi.mocked(fetchTeamMembers).mockResolvedValue(mockMembers);
+        vi.mocked(fetchTeamMembers).mockImplementation(async (page, limit) => {
+            // Calculate the slice indices exactly like the backend would
+            const start = (page - 1) * limit;
+            const end = start + limit;
+            
+            return {
+                data: mockMembers.slice(start, end), // Return just this page's slice
+                total: mockMembers.length            
+            };
+        });
         render(<Directory />, { wrapper: createWrapper() });
 
         await waitFor(() => expect(screen.getByText('Member 1')).toBeInTheDocument());
+        expect(screen.queryByText('Member 7')).not.toBeInTheDocument(); 
 
+        // 3. Click Next
         const nextButton = screen.getByText('Next');
         fireEvent.click(nextButton);
 
-        expect(screen.getByText('Member 7')).toBeInTheDocument();
-        expect(screen.queryByText('Member 1')).not.toBeInTheDocument();
+        // 4. Verify Page 2 (Member 7 appears, Member 1 disappears)
+        await waitFor(() => {
+            expect(screen.getByText('Member 7')).toBeInTheDocument();
+        });
+        expect(screen.queryByText('Member 1')).not.toBeInTheDocument(); 
     });
 
     it('opens and closes the modal', async () => {
-        vi.mocked(fetchTeamMembers).mockResolvedValue(mockMembers);
+        vi.mocked(fetchTeamMembers).mockResolvedValue({data: mockMembers, total: mockMembers.length});
         render(<Directory />, { wrapper: createWrapper() });
 
         await waitFor(() => expect(screen.getByText('Member 1')).toBeInTheDocument());

@@ -51,3 +51,17 @@ export const deleteTeamMember = async (id: number | string): Promise<void> => {
         throw new Error("Failed to delete member");
     }
 };
+
+// Update Member
+export const updateTeamMember = async (id: number | string, updates: Partial<TeamMember>) => {
+    const response = await fetch(`${BASE_URL}/${id}`, {
+        method: 'PATCH', 
+        headers: { 
+            'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify(updates),
+    });
+
+    if (!response.ok) throw new Error("Failed to update member");
+    return response.json();
+};
