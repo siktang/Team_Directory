@@ -99,7 +99,7 @@ const AddMemberForm = ({ onClose }: { onClose: () => void }) => {
 
                 <div className="add-form__input">
                     <label htmlFor="bio">Bio</label>
-                    <textarea id="bio" name="bio" required value={formData.bio} onChange={handleChange} />
+                    <textarea id="bio" name="bio" required value={formData.bio} onChange={handleChange}/>
                 </div>
                 {formData.bio === "" && submitClicked && 
                     <div className="error-field">

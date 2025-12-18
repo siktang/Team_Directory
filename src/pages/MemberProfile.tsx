@@ -112,7 +112,7 @@ const MemberProfile = () => {
 
                     {isEditting ? (
                         <>
-                            <label htmlFor="name"><strong>Name</strong></label>
+                            <label htmlFor="name"><strong>Name:</strong></label>
                             <input
                                 id="name"
                                 name="name" 
@@ -147,7 +147,7 @@ const MemberProfile = () => {
                 
                 {isEditting ? (
                     <>
-                        <label htmlFor="role"><strong>Role</strong></label>
+                        <label htmlFor="role"><strong>Role:</strong></label>
                         <input
                             id="role"
                             name="role" 
