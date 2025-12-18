@@ -1,9 +1,17 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createTeamMember } from "../api/teamApi"; 
+import type { TeamMember } from "../types/types";
 import '../styles/components/AddMember.scss';
 
-const AddMemberForm = ({ onClose }: { onClose: () => void }) => {  
+interface Props {
+  onClose: () => void;
+  // 1. Add this new optional prop
+  onAddSuccess?: () => void; 
+  initialData?: TeamMember;
+}
+
+const AddMemberForm = ({ onClose, onAddSuccess, initialData }: Props) => {  
     const INITIAL_STATE = {
         name: "",
         role: "",
@@ -21,7 +29,11 @@ const AddMemberForm = ({ onClose }: { onClose: () => void }) => {
        
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["teamMembers"] });
-
+            
+            if (!initialData && onAddSuccess) {
+                onAddSuccess();
+            }
+            
             setFormData(INITIAL_STATE);
             setSubmitClicked(false);
             onClose();
@@ -64,10 +76,10 @@ const AddMemberForm = ({ onClose }: { onClose: () => void }) => {
     };
 
     return (
-        <div>
+        <div className="add-form">
             <h3>Add New Member</h3>
             <form onSubmit={handleSubmit} noValidate>
-                <div className="form__input">
+                <div className="add-form__input">
                     <label htmlFor="name">Name</label>
                     <input id="name" name="name" required value={formData.name} onChange={handleChange} />
                 </div>
@@ -77,7 +89,7 @@ const AddMemberForm = ({ onClose }: { onClose: () => void }) => {
                     </div>
                 }
                 
-                <div className="form__input">
+                <div className="add-form__input">
                     <label htmlFor="role">Role</label>
                     <input id="role" name="role" required value={formData.role} onChange={handleChange} />    
                 </div>
@@ -87,7 +99,7 @@ const AddMemberForm = ({ onClose }: { onClose: () => void }) => {
                     </div>
                 }
 
-                <div className="form__input">
+                <div className="add-form__input">
                     <label htmlFor="email">Email</label>
                     <input id="email" type="email" name="email" required value={formData.email} onChange={handleChange} />
                 </div>
@@ -97,9 +109,9 @@ const AddMemberForm = ({ onClose }: { onClose: () => void }) => {
                     </div>
                 }
 
-                <div className="form__input">
+                <div className="add-form__input">
                     <label htmlFor="bio">Bio</label>
-                    <textarea id="bio" name="bio" required value={formData.bio} onChange={handleChange} />
+                    <textarea id="bio" name="bio" required value={formData.bio} onChange={handleChange}/>
                 </div>
                 {formData.bio === "" && submitClicked && 
                     <div className="error-field">

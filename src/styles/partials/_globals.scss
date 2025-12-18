@@ -58,6 +58,15 @@ input, textarea {
     border-radius: 8px;
 }
 
+textarea {
+    min-width: 13rem;
+    min-height: 10rem;
+
+    @include tablet {
+        min-width: 20rem;
+    }
+}
+
 a {
     font-weight: 500;
     color: #646cff;
