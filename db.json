@@ -8,13 +8,6 @@
       "bio": "Loves CSS."
     },
     {
-      "id": "2",
-      "name": "Bob Smith",
-      "role": "Backend Dev",
-      "email": "bob@company.com",
-      "bio": "Database wizard."
-    },
-    {
       "id": "3",
       "name": "Charlie Davis",
       "role": "Designer",
@@ -23,7 +16,7 @@
     },
     {
       "id": "5",
-      "name": "Charlie Davis",
+      "name": "Charlie Brown",
       "role": "Designer",
       "email": "charlie@company.com",
       "bio": "Pixel perfect."
@@ -31,7 +24,7 @@
     {
       "id": "7c2d",
       "name": "DD",
-      "role": "Developer",
+      "role": "Testing role",
       "email": "test6@test.com",
       "bio": "ewqqwqtwq"
     },
