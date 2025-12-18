@@ -23,15 +23,21 @@ const TeamMemberCard = ({ member }: Props) => {
     return (
         <>
         <div className="member-card">
-            <h3 className="member-card__item">{member.name}</h3>
-            <div className="member-card__buttons">
-                <button onClick={() => setOpenModal(true)} className="button__primary">See Bio</button>
-                <Link to={`/member/${member.id}`}>
-                    <button className="button__primary">More Actions</button>
-                </Link>
+            <div className="member-card__header"> 
+                <h3 className="member-card__item">{member.name}</h3>
+                <div className="member-card__buttons">
+                    <div>
+                        <button onClick={() => setOpenModal(true)} className="button__primary">See Bio</button>
+                    </div>
+                    <Link to={`/member/${member.id}`}>
+                        <button className="button__primary">More Actions</button>
+                    </Link>
+                </div>
             </div>
-            <p className="member-card__item"><strong>Role:</strong><br/> {member.role}</p>
-            <p className="member-card__item"><strong>Email:</strong><br/> {member.email}</p>
+            <div className="member-card_content">
+                <p className="member-card__item"><strong>Role:</strong><br/> {member.role}</p>
+                <p className="member-card__item"><strong>Email:</strong><br/> {member.email}</p>
+            </div>
         </div>
 
         {openModal && 

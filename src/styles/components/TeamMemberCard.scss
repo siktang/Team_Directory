@@ -9,12 +9,24 @@
     padding: 0.75rem;
     display: flex;
     margin-bottom: 1rem;
+    justify-content: space-around;
+
+    &__header {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__content {
+        width: 100%;
+    }
 
     &__item {
         padding: 0.3rem;
+        font-size: 0.85rem;
 
         @include tablet {
             padding: 1rem;
+            font-size: 1rem;
         }
     }
 
@@ -35,6 +47,15 @@
 
     &__buttons {
         display: flex;
-        justify-content: space-around;
+        flex-direction: column;
+
+        &> * {
+            margin-bottom: 0.25rem;
+        }
+
+        @include tablet {
+            flex-direction: row;
+            justify-content: space-around;
+        }
     }
 }
