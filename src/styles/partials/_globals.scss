@@ -127,7 +127,13 @@ button {
 
 .icon {
     height: 2rem;
-    padding-right: 2rem
+    margin: 0.5rem;
+}
+
+.icons {
+    &__header {
+        display: flex;
+    }
 }
 
 .error-field {
