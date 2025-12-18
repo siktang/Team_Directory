@@ -5,6 +5,10 @@
 .member-profile {
     padding: 2rem;
 
+    &__content {
+        margin-top: 2rem;
+    }
+
     &__header {
         display: flex;
         align-items: center;
