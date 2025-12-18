@@ -2,10 +2,14 @@
 @use "../partials/mixins" as *;
 @use "../partials/variables" as *;
 
-.form {
+.add-form {
     &__input{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-}}
+        @include tablet {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+    }
+
+}

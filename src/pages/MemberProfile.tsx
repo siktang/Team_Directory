@@ -112,7 +112,10 @@ const MemberProfile = () => {
 
                     {isEditting ? (
                         <>
-                            <input 
+                            <label htmlFor="name"><strong>Name</strong></label>
+                            <input
+                                id="name"
+                                name="name" 
                                 className="input__large"
                                 value={formData.name}
                                 onChange={(e) => setFormData({...formData, name: e.target.value})}
@@ -144,7 +147,10 @@ const MemberProfile = () => {
                 
                 {isEditting ? (
                     <>
-                        <input 
+                        <label htmlFor="role"><strong>Role</strong></label>
+                        <input
+                            id="role"
+                            name="role" 
                             className="input__medium"
                             value={formData.role}
                             onChange={(e) => setFormData({...formData, role: e.target.value})}
@@ -162,13 +168,13 @@ const MemberProfile = () => {
                 <p><strong>Email:</strong>
                     {isEditting ? (
                         <>
-                            <div>
-                                <input 
-                                    value={formData.email}
-                                    onChange={(e) => setFormData({...formData, email: e.target.value})}
-                                    style={{ marginLeft: '10px' }}
-                                />
-                            </div>
+                            <input 
+                                id="email"
+                                name="email"
+                                aria-label="email"
+                                value={formData.email}
+                                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                            />
                             {formData.email === "" && submitClicked && 
                                 <div className="error-field">
                                     This field is required!
@@ -183,12 +189,20 @@ const MemberProfile = () => {
                 <h4>Bio</h4>
                 {isEditting ? (
                     <div>
-                        <textarea 
+                        <textarea
+                            id="bio"
+                            name="bio"
+                            aria-label="bio" 
                             className="input__area"
                             value={formData.bio}
                             onChange={(e) => setFormData({...formData, bio: e.target.value})}
                             rows={5}
                         />
+                        {formData.bio === "" && submitClicked && 
+                            <div className="error-field">
+                                This field is required!
+                            </div>
+                        }
                     </div>
                 ) : (
                     <p>{member.bio}</p>
@@ -197,7 +211,9 @@ const MemberProfile = () => {
                 
                 {isEditting ? (
                     <>
-                        <button onClick={handleSave} className="button__primary">Save</button>
+                        <button onClick={handleSave} disabled={updateMutation.isPending} className="button__primary">
+                            {updateMutation.isPending? "Saving..." : "Save"}
+                        </button>
                         <button onClick={handleCancel} className="button__secondary">Cancel</button>
                     </>
                 ) : 
