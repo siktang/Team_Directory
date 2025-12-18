@@ -35,6 +35,12 @@ body {
     border-radius: 8px;
     margin: auto;
     padding: 2rem;
+    width: 60%;
+
+
+    @include tablet {
+        width: 30%;
+    }
 
     &> * {
         padding: 1rem;
@@ -79,7 +85,7 @@ button {
     }
 
     &__primary {
-        background-color: rgb(59, 58, 58);
+        background-color: rgb(33 90 111);
         color: $primary-color-white;
     }
 
