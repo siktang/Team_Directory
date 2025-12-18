@@ -35,6 +35,13 @@ const Directory = () => {
     const totalCount = data?.total || 0;
     const totalPages = Math.ceil(totalCount / PAGE_SIZE);
 
+    const handleAddSuccess = () => {
+        const newTotalPages = Math.ceil((totalCount + 1) / PAGE_SIZE);
+        
+        // Jump to the new last page
+        setPage(newTotalPages);
+    };
+
     if (isLoading) return <div>Loading team...</div>;
     if (isError) return <div>Error loading directory.</div>;
 
@@ -61,7 +68,11 @@ const Directory = () => {
                 </div>
             </div>
             <dialog ref={addDialogRef} className="modal">
-                {openForm && <AddMemberForm onClose={() => setOpenForm(false)} />}
+                {openForm && 
+                    <AddMemberForm 
+                        onClose={() => setOpenForm(false)}
+                        onAddSuccess={handleAddSuccess} 
+                    />}
             </dialog> 
 
             <div className="directory__container">

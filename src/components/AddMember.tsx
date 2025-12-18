@@ -1,9 +1,17 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createTeamMember } from "../api/teamApi"; 
+import type { TeamMember } from "../types/types";
 import '../styles/components/AddMember.scss';
 
-const AddMemberForm = ({ onClose }: { onClose: () => void }) => {  
+interface Props {
+  onClose: () => void;
+  // 1. Add this new optional prop
+  onAddSuccess?: () => void; 
+  initialData?: TeamMember;
+}
+
+const AddMemberForm = ({ onClose, onAddSuccess, initialData }: Props) => {  
     const INITIAL_STATE = {
         name: "",
         role: "",
@@ -21,7 +29,11 @@ const AddMemberForm = ({ onClose }: { onClose: () => void }) => {
        
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["teamMembers"] });
-
+            
+            if (!initialData && onAddSuccess) {
+                onAddSuccess();
+            }
+            
             setFormData(INITIAL_STATE);
             setSubmitClicked(false);
             onClose();
