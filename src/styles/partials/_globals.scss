@@ -39,7 +39,11 @@ body {
 
 
     @include tablet {
-        width: 33%;
+        width: 50%;
+    }
+
+    @include desktop {
+        width: 33%
     }
 
     &> * {
