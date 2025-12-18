@@ -104,18 +104,17 @@ const MemberProfile = () => {
                         <h1 data-testid="memberName">{member.name}</h1>
                     )}
 
-                    <div className="actions__header">
+                    
                         {isEditting ? null : (
-                            <>
+                            <div className="icons__header">
                                 <div onClick={() => setIsEditting(true)} style={{cursor: 'pointer'}}>
                                     <img src={editIcon} className="icon" alt="edit" title="Edit this profile"/>
                                 </div>
                                 <div onClick={openDeleteModal} data-testid="deleteMember">
                                     <img src={deleteIcon} className="icon" alt="delete icon" title="Delete this member"/>
                                 </div>
-                            </>
-                        )}
-                    </div>                  
+                            </div> 
+                        )}                 
                 </div>
                 
                 <div className="divider"></div>
@@ -132,11 +131,13 @@ const MemberProfile = () => {
 
                 <p><strong>Email:</strong>
                     {isEditting ? (
-                        <input 
-                            value={formData.email}
-                            onChange={(e) => setFormData({...formData, email: e.target.value})}
-                            style={{ marginLeft: '10px' }}
-                        />
+                        <div>
+                            <input 
+                                value={formData.email}
+                                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                                style={{ marginLeft: '10px' }}
+                            />
+                        </div>
                     ) : (
                         ` ${member.email}`
                     )}
@@ -144,12 +145,14 @@ const MemberProfile = () => {
                 
                 <h4>Bio</h4>
                 {isEditting ? (
-                    <textarea 
-                        className="input__area"
-                        value={formData.bio}
-                        onChange={(e) => setFormData({...formData, bio: e.target.value})}
-                        rows={5}
-                    />
+                    <div>
+                        <textarea 
+                            className="input__area"
+                            value={formData.bio}
+                            onChange={(e) => setFormData({...formData, bio: e.target.value})}
+                            rows={5}
+                        />
+                    </div>
                 ) : (
                     <p>{member.bio}</p>
                 )}
