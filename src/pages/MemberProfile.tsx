@@ -18,6 +18,7 @@ const MemberProfile = () => {
         email: "",
         bio: ""
     });
+    const [submitClicked, setSubmitClicked] = useState(false);
 
     const deleteDialogRef = useRef<HTMLDialogElement>(null);
 
@@ -47,6 +48,7 @@ const MemberProfile = () => {
             queryClient.invalidateQueries({ queryKey: ["member", id] });
             queryClient.invalidateQueries({ queryKey: ["teamMembers"] }); // Update directory too
             setIsEditting(false); // Switch back to "View Mode"
+            setSubmitClicked(false);
         },
         onError: () => alert("Failed to save changes.")
     });
@@ -67,7 +69,21 @@ const MemberProfile = () => {
         }
     });
 
-    const handleSave = () => updateMutation.mutate();
+    const handleSave = () => {
+
+        setSubmitClicked(true);
+
+        if (
+            !formData.email ||
+            !formData.name ||
+            !formData.role ||
+            !formData.bio
+        ) {
+            return;
+        }
+
+        updateMutation.mutate();
+    };
     
     const handleCancel = () => {
         // Reset form data back to original server data
@@ -95,11 +111,18 @@ const MemberProfile = () => {
                 <div className="member-profile__header">
 
                     {isEditting ? (
-                        <input 
-                            className="input__large"
-                            value={formData.name}
-                            onChange={(e) => setFormData({...formData, name: e.target.value})}
-                        />
+                        <>
+                            <input 
+                                className="input__large"
+                                value={formData.name}
+                                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                            />
+                            {formData.name === "" && submitClicked && 
+                                <div className="error-field">
+                                    This field is required!
+                                </div>
+                            }
+                        </>
                     ) : (
                         <h1 data-testid="memberName">{member.name}</h1>
                     )}
@@ -120,24 +143,38 @@ const MemberProfile = () => {
                 <div className="divider"></div>
                 
                 {isEditting ? (
-                    <input 
-                        className="input__medium"
-                        value={formData.role}
-                        onChange={(e) => setFormData({...formData, role: e.target.value})}
-                    />
+                    <>
+                        <input 
+                            className="input__medium"
+                            value={formData.role}
+                            onChange={(e) => setFormData({...formData, role: e.target.value})}
+                        />
+                        {formData.role === "" && submitClicked && 
+                            <div className="error-field">
+                                This field is required!
+                            </div>
+                        }
+                    </>
                 ) : (
                     <h3>{member.role}</h3>
                 )}
 
                 <p><strong>Email:</strong>
                     {isEditting ? (
-                        <div>
-                            <input 
-                                value={formData.email}
-                                onChange={(e) => setFormData({...formData, email: e.target.value})}
-                                style={{ marginLeft: '10px' }}
-                            />
-                        </div>
+                        <>
+                            <div>
+                                <input 
+                                    value={formData.email}
+                                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                                    style={{ marginLeft: '10px' }}
+                                />
+                            </div>
+                            {formData.email === "" && submitClicked && 
+                                <div className="error-field">
+                                    This field is required!
+                                </div>
+                            }
+                        </>
                     ) : (
                         ` ${member.email}`
                     )}
